@@ -56,7 +56,7 @@ class StatementFactory {
 
 public class FizzBuzzWithoutConditions {
     public static void main(String[] args){
-        StatementFactory factory = new StatementFactory();
+        StatementFactory statements = new StatementFactory();
         int n = 100; //This number can be anything or entered by the user.
         for (int i = 1; i <= n; i++){
             /*This is where the main "magic" of the process takes place.
@@ -65,7 +65,7 @@ public class FizzBuzzWithoutConditions {
             always be the one that is needed according to the conditions of the problem.
              */
             String statement = (i % 3 == 0) + String.valueOf(i % 5 == 0);
-            factory.getStatement(statement).print(i);
+            statements.getStatement(statement).print(i);
         }
     }
 }
