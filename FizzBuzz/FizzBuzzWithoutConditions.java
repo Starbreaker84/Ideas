@@ -7,31 +7,32 @@ The main idea is not to use conditional statements.
 To do this, we will use polymorphism to "catch" one of the four states that are possible.*/
 
 //Common interface for states.
+//The only thing our interface will do is display a number or text.
 interface Statement{
     Logger logger = Logger.getLogger(Statement.class.getName());
     void print(int value);
 }
 
 //Next, we will create one implementation of the interface to reflect the conditions of the problem in the output.
-class DivBy3 implements Statement {
+class DivisibleBy3 implements Statement {
     public void print(int value) {
         logger.info("Fizz");
     }
 }
 
-class DivBy5 implements Statement {
+class DivisibleBy5 implements Statement {
     public void print(int value){
         logger.info("Buzz");
     }
 }
 
-class DivBy35 implements Statement {
+class DivisibleBy3And5 implements Statement {
     public void print(int value){
         logger.info("FizzBuzz");
     }
 }
 
-class NotDiv implements Statement {
+class NotDivisible implements Statement {
     public void print(int value) {
         logger.info(() -> "" + value);
     }
@@ -42,13 +43,13 @@ class StatementFactory {
     static Map<String, Statement> statementMap = new HashMap<>();
 
     StatementFactory() {
-        statementMap.put("truefalse", new DivBy3());
-        statementMap.put("falsetrue", new DivBy5());
-        statementMap.put("truetrue", new DivBy35());
-        statementMap.put("falsefalse", new NotDiv());
+        statementMap.put("truefalse", new DivisibleBy3());
+        statementMap.put("falsetrue", new DivisibleBy5());
+        statementMap.put("truetrue", new DivisibleBy3And5());
+        statementMap.put("falsefalse", new NotDivisible());
     }
 
-    public Statement getStatement(String statement){ //Let's not forget about the getter to get the current state.
+    public Statement getStatement(String statement){ //And not forget about the getter to get the current state.
         return statementMap.get(statement);
     }
 }
