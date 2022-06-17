@@ -8,30 +8,30 @@ To do this, we will use polymorphism to "catch" one of the four states that are 
 
 //Common interface for states.
 //The only thing our interface will do is display a number or text.
-interface PrintFactory {
-    Logger logger = Logger.getLogger(PrintFactory.class.getName());
+interface OutputFactory {
+    Logger logger = Logger.getLogger(OutputFactory.class.getName());
     void print(int value);
 }
 
 //Next, we will create one implementation of the interface to reflect the conditions of the problem in the output.
-class DivBy3Print implements PrintFactory {
+class DivBy3Print implements OutputFactory {
     public void print(int value) {
         logger.info("Fizz");
     }
 }
 
-class DivBy5Print implements PrintFactory {
+class DivBy5Print implements OutputFactory {
     public void print(int value){
         logger.info("Buzz");
     }
 }
-class DivBy3And5Print implements PrintFactory {
+class DivBy3And5Print implements OutputFactory {
     public void print(int value){
         logger.info("FizzBuzz");
     }
 }
 
-class NotDivPrint implements PrintFactory {
+class NotDivPrint implements OutputFactory {
     public void print(int value) {
         logger.info(() -> "" + value);
     }
@@ -39,7 +39,7 @@ class NotDivPrint implements PrintFactory {
 
 //Now let's create a dictionary-based class to select one of the states.
 class StatementFactory {
-    static Map<String, PrintFactory> statementMap = new HashMap<>();
+    static Map<String, OutputFactory> statementMap = new HashMap<>();
 
     StatementFactory() {
         statementMap.put("truefalse", new DivBy3Print());
@@ -48,7 +48,7 @@ class StatementFactory {
         statementMap.put("falsefalse", new NotDivPrint());
     }
 
-    public PrintFactory getStatement(String statement){ //And not forget about the getter to get the current state.
+    public OutputFactory getStatement(String statement){ //And not forget about the getter to get the current state.
         return statementMap.get(statement);
     }
 }
