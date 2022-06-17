@@ -8,31 +8,30 @@ To do this, we will use polymorphism to "catch" one of the four states that are 
 
 //Common interface for states.
 //The only thing our interface will do is display a number or text.
-interface Statement{
-    Logger logger = Logger.getLogger(Statement.class.getName());
+interface PrintFactory {
+    Logger logger = Logger.getLogger(PrintFactory.class.getName());
     void print(int value);
 }
 
 //Next, we will create one implementation of the interface to reflect the conditions of the problem in the output.
-class DivisibleBy3 implements Statement {
+class DivBy3Print implements PrintFactory {
     public void print(int value) {
         logger.info("Fizz");
     }
 }
 
-class DivisibleBy5 implements Statement {
+class DivBy5Print implements PrintFactory {
     public void print(int value){
         logger.info("Buzz");
     }
 }
-
-class DivisibleBy3And5 implements Statement {
+class DivBy3And5Print implements PrintFactory {
     public void print(int value){
         logger.info("FizzBuzz");
     }
 }
 
-class NotDivisible implements Statement {
+class NotDivPrint implements PrintFactory {
     public void print(int value) {
         logger.info(() -> "" + value);
     }
@@ -40,16 +39,16 @@ class NotDivisible implements Statement {
 
 //Now let's create a dictionary-based class to select one of the states.
 class StatementFactory {
-    static Map<String, Statement> statementMap = new HashMap<>();
+    static Map<String, PrintFactory> statementMap = new HashMap<>();
 
     StatementFactory() {
-        statementMap.put("truefalse", new DivisibleBy3());
-        statementMap.put("falsetrue", new DivisibleBy5());
-        statementMap.put("truetrue", new DivisibleBy3And5());
-        statementMap.put("falsefalse", new NotDivisible());
+        statementMap.put("truefalse", new DivBy3Print());
+        statementMap.put("falsetrue", new DivBy5Print());
+        statementMap.put("truetrue", new DivBy3And5Print());
+        statementMap.put("falsefalse", new NotDivPrint());
     }
 
-    public Statement getStatement(String statement){ //And not forget about the getter to get the current state.
+    public PrintFactory getStatement(String statement){ //And not forget about the getter to get the current state.
         return statementMap.get(statement);
     }
 }
